@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Advanced UI Styling - AI Travel Agent
+   Includes Animations, Glassmorphism, and Visual Enhancements
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); }
+  100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+}
+
+@keyframes floatHero {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes borderGlow {
+  0% { border-color: rgba(99, 102, 241, 0.3); }
+  50% { border-color: rgba(56, 189, 248, 0.8); }
+  100% { border-color: rgba(99, 102, 241, 0.3); }
+}
+
+/* --- Global Setup & Dark Background --- */
+html, body, [class*="css"] {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.stApp {
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+    linear-gradient(135deg, #090d16 0%, #0f172a 100%);
+  background-attachment: fixed;
+  color: #f8fafc;
+}
+
+/* --- App Header with Hero Image Banner --- */
+.hero-banner {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.95) 100%),
+              url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.8s ease-out;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.hero-banner h1 {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem !important;
+}
+
+/* --- Sidebar Glassmorphism --- */
+[data-testid="stSidebar"] {
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Form Inputs Styling */
+.stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
+  background: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  color: #f1f5f9 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* --- Interactive Primary Button --- */
+div.stButton > button[kind="primary"] {
+  background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+div.stButton > button[kind="primary"]:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5) !important;
+}
+
+div.stButton > button[kind="primary"]:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* --- Container Cards (Metrics & Tabs) --- */
+[data-testid="stMetric"], .stTabs [data-baseweb="tab-panel"] {
+  background: rgba(30, 41, 59, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 1.25rem !important;
+  animation: fadeIn 0.5s ease-out;
+  transition: all 0.3s ease;
+}
+
+[data-testid="stMetric"]:hover {
+  border-color: rgba(56, 189, 248, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+[data-testid="stMetricValue"] {
+  color: #38bdf8 !important;
+  font-size: 2rem !important;
+  font-weight: 700;
+}
+
+/* --- Tabs Design --- */
+.stTabs [data-baseweb="tab-list"] {
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.stTabs [data-baseweb="tab"] {
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.25s ease;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+  color: #f8fafc;
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.stTabs [aria-selected="true"] {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3) 0%, rgba(56, 189, 248, 0.2) 100%) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+}
+
+/* --- Live Agent Trace Box Styling --- */
+.stCodeBlock {
+  border-radius: 12px !important;
+  border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  animation: borderGlow 4s infinite ease-in-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}

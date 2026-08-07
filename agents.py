@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from typing import Any, Dict, List
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -207,7 +208,7 @@ Budget JSON:
 
 import requests
 
-UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY"  # Replace with your Unsplash Access Key
+UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY", "")
 
 def fetch_destination_image(destination: str) -> str:
     """Fetches a high-quality photo URL for the destination via Unsplash API."""

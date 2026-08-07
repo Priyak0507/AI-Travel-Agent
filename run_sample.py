@@ -3,7 +3,11 @@ import json
 from workflow import build_graph
 
 # Set API key and model
-os.environ["GROQ_API_KEY"] = os.environ.get("GROQ_API_KEY", "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")
+groq_key = os.environ.get("GROQ_API_KEY")
+if groq_key:
+    os.environ["GROQ_API_KEY"] = groq_key
+else:
+    print("Warning: GROQ_API_KEY not set. Set GROQ_API_KEY in environment or .env before running.")
 
 initial_state = {
     "destination": "Bali",

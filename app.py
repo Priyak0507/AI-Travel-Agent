@@ -7,10 +7,21 @@ import streamlit as st
 
 from dotenv import load_dotenv
 
-
 from workflow import build_graph
+# In app.py inside: with st.sidebar:
+
+default_api_key = os.getenv("GROQ_API_KEY", "")
+
+api_key = st.text_input(
+    "Groq API Key", 
+    value=default_api_key,
+    type="password", 
+    help="Get a free key from console.groq.com",
+    key="groq_api_key_input"  
+)
 
 load_dotenv()
+default_api_key = os.getenv("GROQ_API_KEY", "")
 
 st.set_page_config(page_title="AI Travel Planning Agent", page_icon="🧭", layout="wide")
 

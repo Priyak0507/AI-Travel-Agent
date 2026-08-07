@@ -10,18 +10,11 @@ from dotenv import load_dotenv
 from workflow import build_graph
 # In app.py inside: with st.sidebar:
 
-default_api_key = os.getenv("GROQ_API_KEY", "")
-
-api_key = st.text_input(
-    "Groq API Key", 
-    value=default_api_key,
-    type="password", 
-    help="Get a free key from console.groq.com",
-    key="groq_api_key_input"  
-)
-
 load_dotenv()
+
 default_api_key = os.getenv("GROQ_API_KEY", "")
+if "groq_api_key_input" not in st.session_state:
+    st.session_state["groq_api_key_input"] = default_api_key
 
 st.set_page_config(page_title="AI Travel Planning Agent", page_icon="🧭", layout="wide")
 
@@ -67,7 +60,13 @@ with st.sidebar:
         ],
         index=0,
     )
-    api_key = st.text_input("Groq API Key", type="password", help="Get a free key from console.groq.com")
+    api_key = st.text_input(
+        "Groq API Key",
+        value=st.session_state.get("groq_api_key_input", ""),
+        type="password",
+        help="Get a free key from console.groq.com",
+        key="groq_api_key_input",
+    )
     max_iterations = st.slider("Max correction loops", min_value=1, max_value=4, value=2, step=1)
     run_clicked = st.button("Generate Travel Plan", use_container_width=True, type="primary")
 
@@ -87,6 +86,7 @@ if run_clicked:
         st.error("Please enter your Groq API key.")
         st.stop()
 
+    st.session_state["groq_api_key_input"] = api_key.strip()
     os.environ["GROQ_API_KEY"] = api_key.strip()
 
     graph = build_graph()

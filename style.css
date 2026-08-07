@@ -354,12 +354,13 @@ div.stButton > button[kind="primary"] {
 }
 
 .stNumberInput > div > div input[type="number"] {
-  background: transparent !important;
+  background: var(--card-bg) !important;
   border: none !important;
   color: var(--text-color) !important;
   font-size: 1rem !important;
   padding: 0.45rem 0.6rem !important;
   flex: 1 1 auto !important;
+  border-radius: 8px !important;
 }
 
 /* Make the plus/minus controls more visible and consistent */

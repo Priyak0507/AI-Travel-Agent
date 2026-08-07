@@ -45,26 +45,24 @@ html, body, [class*="css"] {
 
 /* --- App Header with Hero Image Banner --- */
 .hero-banner {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.95) 100%),
-              url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=80');
+  /* blend header with app background */
+  background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(11,18,32,0.95) 100%);
   background-size: cover;
   background-position: center;
-  padding: 2.5rem 2rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 2rem;
-  animation: fadeIn 0.8s ease-out;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  padding: 1.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.6s ease-out;
+  box-shadow: none;
 }
 
 .hero-banner h1 {
-  font-size: 2.5rem !important;
+  font-size: 2rem !important;
   font-weight: 800 !important;
-  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem !important;
+  color: var(--text-color) !important;
+  margin-bottom: 0.35rem !important;
+  text-shadow: 0 8px 30px rgba(2,6,23,0.8);
 }
 
 /* --- Sidebar Glassmorphism --- */
@@ -115,13 +113,13 @@ div.stButton > button[kind="primary"]:active {
 
 /* --- Container Cards (Metrics & Tabs) --- */
 [data-testid="stMetric"], .stTabs [data-baseweb="tab-panel"] {
-  background: rgba(30, 41, 59, 0.4) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 16px !important;
-  padding: 1.25rem !important;
-  animation: fadeIn 0.5s ease-out;
-  transition: all 0.3s ease;
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 14px !important;
+  padding: 1.1rem !important;
+  animation: fadeIn 0.45s ease-out;
+  transition: all 0.22s ease;
 }
 
 [data-testid="stMetric"]:hover {
@@ -145,10 +143,10 @@ div.stButton > button[kind="primary"]:active {
 .stTabs [data-baseweb="tab"] {
   border-radius: 10px;
   padding: 10px 20px;
-  color: #94a3b8;
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.25s ease;
+  color: var(--muted-color);
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  transition: all 0.22s ease;
 }
 
 .stTabs [data-baseweb="tab"]:hover {

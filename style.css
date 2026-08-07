@@ -183,3 +183,106 @@ div.stButton > button[kind="primary"]:active {
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+/* ======================================================
+   Accessibility & Readability Enhancements
+   - Improve contrast, spacing, and typography for clarity
+   - Add stronger overlay on hero images for readable text
+ ======================================================
+*/
+
+:root {
+  --bg-dark: #0b1220;
+  --card-bg: rgba(20, 28, 40, 0.6);
+  --text-color: #e6eef8;
+  --muted-color: #9fb0c8;
+  --accent: #38bdf8;
+  --accent-strong: #0ea5b7;
+}
+
+html, body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ensure readable base text color */
+.stApp, .stApp * {
+  color: var(--text-color) !important;
+}
+
+/* Paragraphs, labels and general text */
+.stMarkdown p, .stText, .stCaption, label {
+  color: var(--muted-color) !important;
+  font-size: 0.98rem !important;
+}
+
+/* Headings */
+.stMarkdown h1, .hero-banner h1 {
+  color: var(--text-color) !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  text-shadow: 0 2px 14px rgba(2,6,23,0.6);
+}
+
+.stMarkdown h2, .stMarkdown h3 {
+  color: #f1f5f9 !important;
+  margin-top: 0.75rem !important;
+}
+
+/* Make hero banner text easier to read by adding a subtle dark overlay */
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+}
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2,6,23,0.45) 0%, rgba(2,6,23,0.7) 100%);
+  z-index: 0;
+}
+.hero-banner > * { position: relative; z-index: 1; }
+
+/* Dynamic hero card used in runtime */
+.dynamic-hero-card {
+  background-size: cover;
+  background-position: center;
+  padding: 2rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #ffffff;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+}
+
+/* Improve input readability */
+.stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
+  color: var(--text-color) !important;
+}
+
+/* Stronger focus outlines for keyboard users */
+.stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus, .stSelectbox select:focus {
+  outline: 3px solid rgba(56,189,248,0.14) !important;
+  outline-offset: 2px !important;
+}
+
+/* Make code blocks high-contrast and readable */
+.stCodeBlock, .stCodeBlock pre, .stCodeBlock code {
+  background: rgba(2,6,23,0.7) !important;
+  color: #dbeafe !important;
+  border-radius: 10px !important;
+  padding: 0.75rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace !important;
+  font-size: 0.95rem !important;
+}
+
+/* Ensure primary button has sufficient contrast when animation runs */
+div.stButton > button[kind="primary"] {
+  box-shadow: 0 6px 22px rgba(3, 105, 161, 0.35) !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .hero-banner h1 { font-size: 1.6rem !important; }
+  .hero-banner { padding: 1.25rem 1rem; }
+}

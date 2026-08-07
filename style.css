@@ -258,6 +258,33 @@ html, body {
   color: var(--text-color) !important;
 }
 
+/* Stronger overrides to remove grey inner backgrounds from Streamlit inputs */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stTextArea > div > div > textarea,
+.stSelectbox > div > div > select,
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
+}
+
+/* Remove spinner arrows and default webkit appearance for number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ensure placeholder text is muted but legible */
+::placeholder {
+  color: rgba(230,238,248,0.65) !important;
+}
+
 /* Restyle select boxes (Groq Model etc.) to remove grey background */
 .stSelectbox select {
   background: var(--card-bg) !important;

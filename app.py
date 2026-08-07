@@ -86,7 +86,6 @@ if run_clicked:
         st.error("Please enter your Groq API key.")
         st.stop()
 
-    st.session_state["groq_api_key_input"] = api_key.strip()
     os.environ["GROQ_API_KEY"] = api_key.strip()
 
     graph = build_graph()

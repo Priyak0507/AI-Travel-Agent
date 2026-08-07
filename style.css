@@ -384,10 +384,10 @@ div.stButton > button[kind="primary"] {
   transform: translateY(-1px) !important;
 }
 
-/* If Streamlit renders +/- as small icons, enlarge them */
+/* If Streamlit renders +/- as small icons, set them to compact size */
 .stNumberInput button svg, .stNumberInput button img {
-  width: 18px !important;
-  height: 18px !important;
+  width: 12px !important;
+  height: 12px !important;
   opacity: 0.95 !important;
 }
 

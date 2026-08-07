@@ -106,6 +106,7 @@ if run_clicked:
         "iteration": 0,
         "max_iterations": int(max_iterations),
         "final_plan": "",
+        "destination_image_url": "",
         "execution_trace": [],
     }
 
@@ -128,6 +129,37 @@ if run_clicked:
     if not final_state:
         st.error("Workflow did not return a final state. Please try again.")
         st.stop()
+
+    img_url = final_state.get(
+        "destination_image_url",
+        "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80",
+    )
+
+    st.markdown(
+        f"""
+        <style>
+            .dynamic-hero-card {{
+                background: linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%),
+                            url('{img_url}');
+                background-size: cover;
+                background-position: center;
+                padding: 2rem 1.5rem;
+                border-radius: 16px;
+                border: 1px solid rgba(255, 255, 255, 0.16);
+                margin-bottom: 1.5rem;
+                box-shadow: 0 16px 35px rgba(0,0,0,0.35);
+            }}
+            .dynamic-hero-card h1 {{ margin: 0; }}
+        </style>
+        <div class="dynamic-hero-card">
+            <h1 style="color: white; margin: 0;">📍 {final_state.get('destination', 'Destination')} Plan</h1>
+            <p style="color: #e2e8f0; font-size: 1.05rem; margin-top: 0.5rem;">
+                Custom itinerary for {final_state.get('duration_days')} days in {final_state.get('destination', 'your destination')}.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     tab1, tab2, tab3 = st.tabs(["Final Plan", "Budget", "Itinerary JSON"])
 

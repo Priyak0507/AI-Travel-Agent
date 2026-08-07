@@ -4,7 +4,7 @@ from typing import Any, Dict
 
 from langgraph.graph import END, START, StateGraph
 
-from agents import budget_agent, finalizer_agent, planner_agent, validator_agent
+from agents import budget_agent, finalizer_agent, planner_agent, validator_agent, image_agent
 from state import AgentState
 
 
@@ -29,39 +29,13 @@ def route_after_validation(state: Dict[str, Any]) -> str:
 def build_graph():
     graph = StateGraph(AgentState)
 
+    graph.add_node("image_fetcher", image_agent)
     graph.add_node("planner", planner_agent)
     graph.add_node("budgeter", budget_agent)
     graph.add_node("validator", validator_agent)
     graph.add_node("correction", correction_node)
     graph.add_node("finalizer", finalizer_agent)
 
-    graph.add_edge(START, "planner")
-    graph.add_edge("planner", "budgeter")
-    graph.add_edge("budgeter", "validator")
-    graph.add_conditional_edges(
-        "validator",
-        route_after_validation,
-        {"retry": "correction", "finalize": "finalizer"},
-    )
-    graph.add_edge("correction", "planner")
-    graph.add_edge("finalizer", END)
-
-    return graph.compile()
-
-   
-from agents import budget_agent, finalizer_agent, planner_agent, validator_agent, image_agent
-
-def build_graph():
-    graph = StateGraph(AgentState)
-
-    graph.add_node("image_fetcher", image_agent)  # <--- Added image agent
-    graph.add_node("planner", planner_agent)
-    graph.add_node("budgeter", budget_agent)
-    graph.add_node("validator", validator_agent)
-    graph.add_node("correction", correction_node)
-    graph.add_node("finalizer", finalizer_agent)
-
-    # Route START to image_fetcher, then proceed to planner
     graph.add_edge(START, "image_fetcher")
     graph.add_edge("image_fetcher", "planner")
     graph.add_edge("planner", "budgeter")

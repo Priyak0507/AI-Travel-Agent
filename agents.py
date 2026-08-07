@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import urllib.parse
 from typing import Any, Dict, List
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -210,26 +211,31 @@ import requests
 
 UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY", "")
 
-def fetch_destination_image(destination: str) -> str:
-    """Fetches a high-quality photo URL for the destination via Unsplash API."""
+def fetch_destination_images(destination: str, per_page: int = 3) -> List[str]:
+    """Fetches one or more destination image URLs from Unsplash."""
     fallback_url = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80"
-    
     if not UNSPLASH_ACCESS_KEY or UNSPLASH_ACCESS_KEY == "YOUR_UNSPLASH_ACCESS_KEY":
-        return fallback_url
+        return [fallback_url] * per_page
 
-    url = f"https://api.unsplash.com/search/photos?query={destination}%20travel%20landmark&orientation=landscape&per_page=1"
+    query = urllib.parse.quote(f"{destination} travel landmark")
+    url = f"https://api.unsplash.com/search/photos?query={query}&orientation=landscape&per_page={per_page}"
     headers = {"Authorization": f"Client-ID {UNSPLASH_ACCESS_KEY}"}
 
     try:
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             data = response.json()
-            if data.get("results"):
-                return data["results"][0]["urls"]["regular"]
+            results = data.get("results", [])
+            if results:
+                return [item["urls"]["regular"] for item in results]
     except Exception:
         pass
-        
-    return fallback_url
+    return [fallback_url] * per_page
+
+
+def fetch_destination_image(destination: str) -> str:
+    """Fetches a high-quality photo URL for the destination via Unsplash API."""
+    return fetch_destination_images(destination, per_page=1)[0]
 
 
 def image_agent(state: Dict[str, Any]) -> Dict[str, Any]:

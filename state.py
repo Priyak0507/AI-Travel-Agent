@@ -48,20 +48,3 @@ class ValidationSchema(BaseModel):
     is_valid: bool
     issues: List[str] = Field(default_factory=list)
     suggestions: List[str] = Field(default_factory=list)
-
-
-class AgentState(TypedDict):
-    destination: str
-    duration_days: int
-    budget: float
-    interests: List[str]
-    constraints: List[str]
-    model_name: str
-    itinerary: Dict[str, Any]
-    budget_breakdown: Dict[str, Any]
-    validation: Dict[str, Any]
-    correction_history: List[str]
-    iteration: int
-    max_iterations: int
-    final_plan: str
-    execution_trace: List[str]

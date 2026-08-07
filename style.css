@@ -330,3 +330,34 @@ div.stButton > button[kind="primary"] {
   .hero-banner h1 { font-size: 1.6rem !important; }
   .hero-banner { padding: 1.25rem 1rem; }
 }
+
+/* Final strong overrides to remove residual grey fills from Streamlit's inner wrappers */
+/* Apply to many nested selectors to ensure consistent background across browsers */
+.stTextInput, .stNumberInput, .stTextArea, .stSelectbox, .stTextInput > div, .stNumberInput > div, .stTextArea > div, .stSelectbox > div {
+  background: transparent !important;
+}
+
+.stTextInput > div > div, .stNumberInput > div > div, .stTextArea > div > div, .stSelectbox > div > div {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow: none !important;
+}
+
+/* Fallback generic selectors for any remaining inputs */
+input, textarea, select {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+/* Remove any internal grey backgrounds added by pseudo-elements */
+input::before, input::after, textarea::before, textarea::after { background: transparent !important; }
+
+/* Ensure the Groq model select visually matches other boxes */
+.stSelectbox, .stTextInput, .stNumberInput {
+  padding: 0.15rem !important;
+}
+

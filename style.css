@@ -213,7 +213,7 @@ html, body {
 
 /* Paragraphs, labels and general text */
 .stMarkdown p, .stText, .stCaption, label {
-  color: var(--muted-color) !important;
+  color: var(--text-color) !important;
   font-size: 0.98rem !important;
 }
 
@@ -258,6 +258,25 @@ html, body {
 /* Improve input readability */
 .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
   color: var(--text-color) !important;
+}
+
+/* Restyle select boxes (Groq Model etc.) to remove grey background */
+.stSelectbox select {
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  padding: 0.55rem 0.75rem !important;
+}
+.stSelectbox select option {
+  background: #0b1220 !important;
+  color: var(--text-color) !important;
+}
+
+.stSelectbox select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 12px rgba(56,189,248,0.14) !important;
 }
 
 /* Stronger focus outlines for keyboard users */

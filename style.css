@@ -73,6 +73,22 @@ html, body, [class*="css"] {
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Style the Streamlit top app header bar so it matches the app background */
+.stAppHeader {
+  background: linear-gradient(135deg, #090d16 0%, #0f172a 100%) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.03), 0 8px 20px rgba(0,0,0,0.25) !important;
+}
+
+.stAppHeader button {
+  color: #e6eef8 !important;
+}
+
+.stAppHeader .stButton>button, .stAppHeader button {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e6eef8 !important;
+}
+
 /* Form Inputs Styling */
 .stTextInput input, .stNumberInput input, .stSelectbox select, .stTextArea textarea {
   background: rgba(30, 41, 59, 0.6) !important;

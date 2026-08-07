@@ -345,6 +345,52 @@ div.stButton > button[kind="primary"] {
   box-shadow: none !important;
 }
 
+/* Style duration and budget number controls to match other boxes */
+.stNumberInput > div > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.45rem 0.6rem !important;
+}
+
+.stNumberInput > div > div input[type="number"] {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-color) !important;
+  font-size: 1rem !important;
+  padding: 0.45rem 0.6rem !important;
+  flex: 1 1 auto !important;
+}
+
+/* Make the plus/minus controls more visible and consistent */
+.stNumberInput button {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--text-color) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  border-radius: 8px !important;
+  padding: 0.35rem 0.6rem !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 10px rgba(2,6,23,0.4) !important;
+}
+
+.stNumberInput button:hover {
+  background: rgba(56,189,248,0.12) !important;
+  color: var(--accent) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* If Streamlit renders +/- as small icons, enlarge them */
+.stNumberInput button svg, .stNumberInput button img {
+  width: 18px !important;
+  height: 18px !important;
+  opacity: 0.95 !important;
+}
+
+
 /* Fallback generic selectors for any remaining inputs */
 input, textarea, select {
   background: var(--card-bg) !important;

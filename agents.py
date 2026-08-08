@@ -213,7 +213,8 @@ UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY", "")
 
 def fetch_destination_images(destination: str, per_page: int = 3) -> List[str]:
     """Fetches one or more destination image URLs from Unsplash."""
-    fallback_url = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80"
+    destination_query = urllib.parse.quote(destination or "travel")
+    fallback_url = f"https://source.unsplash.com/featured/1200x800/?{destination_query}"
     if not UNSPLASH_ACCESS_KEY or UNSPLASH_ACCESS_KEY == "YOUR_UNSPLASH_ACCESS_KEY":
         return [fallback_url] * per_page
 

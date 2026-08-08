@@ -46,15 +46,16 @@ html, body, [class*="css"] {
 /* --- App Header with Hero Image Banner --- */
 .hero-banner {
   /* blend header with app background for one unified header section */
-  background: linear-gradient(135deg, #090d16 0%, #0f172a 100%) !important;
-  background-size: cover;
-  background-position: center;
-  padding: 1.75rem 1.5rem;
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(2, 6, 23, 0.55), rgba(15, 23, 42, 0.88)),
+              url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1650&q=80') center/cover no-repeat !important;
+  min-height: 280px;
+  background-attachment: fixed;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.08);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   animation: fadeIn 0.6s ease-out;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .hero-banner h1 {
@@ -177,10 +178,20 @@ div.stButton > button[kind="primary"]:active {
 }
 
 /* --- Live Agent Trace Box Styling --- */
-.stCodeBlock {
-  border-radius: 12px !important;
-  border: 1px solid rgba(99, 102, 241, 0.3) !important;
-  animation: borderGlow 4s infinite ease-in-out;
+code.language-text, .stCodeBlock, .stCodeBlock pre {
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background: rgba(8, 15, 29, 0.92) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25) !important;
+  animation: none !important;
+  color: #e2e8f0 !important;
+  padding: 0.85rem !important;
+}
+
+code.language-text {
+  display: block !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
 }
 
 /* Custom Scrollbar */

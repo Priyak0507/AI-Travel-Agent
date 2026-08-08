@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import urllib.parse
 from typing import Any, Dict, List
 
 import streamlit as st
@@ -132,30 +133,29 @@ if run_clicked:
 
     img_url = final_state.get(
         "destination_image_url",
-        "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1650&q=80",
     )
 
     st.markdown(
         f"""
         <style>
-            .dynamic-hero-card {{
-                background: linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%),
+            .destination-image-card {{
+                background: linear-gradient(180deg, rgba(2, 6, 23, 0.24) 0%, rgba(15, 23, 42, 0.85) 100%),
                             url('{img_url}');
                 background-size: cover;
                 background-position: center;
                 padding: 2rem 1.5rem;
-                border-radius: 16px;
+                border-radius: 18px;
                 border: 1px solid rgba(255, 255, 255, 0.16);
-                margin-bottom: 1.5rem;
-                box-shadow: 0 16px 35px rgba(0,0,0,0.35);
+                margin-bottom: 1.75rem;
+                box-shadow: 0 18px 45px rgba(0,0,0,0.33);
             }}
-            .dynamic-hero-card h1 {{ margin: 0; }}
+            .destination-image-card h2 {{ margin: 0; font-size: 1.7rem; color: #fff; }}
+            .destination-image-card p {{ margin: 0.5rem 0 0; color: #cbd5e1; }}
         </style>
-        <div class="dynamic-hero-card">
-            <h1 style="color: white; margin: 0;">📍 {final_state.get('destination', 'Destination')} Plan</h1>
-            <p style="color: #e2e8f0; font-size: 1.05rem; margin-top: 0.5rem;">
-                Custom itinerary for {final_state.get('duration_days')} days in {final_state.get('destination', 'your destination')}.
-            </p>
+        <div class="destination-image-card">
+            <h2>📸 Scenic view of {final_state.get('destination', 'your destination')}</h2>
+            <p>Automatically selected travel photo for your itinerary.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -198,32 +198,3 @@ st.divider()
 st.markdown(
     "Tip: If model calls fail due to quota or model availability, switch Groq model in the sidebar and retry."
 )
-
-if run_clicked and final_state:
-    img_url = final_state.get(
-        "destination_image_url",
-        "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80",
-    )
-
-    st.markdown(
-        f"""
-        <style>
-            .dynamic-hero-card {{
-                background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.9) 100%),
-                            url('{img_url}');
-                background-size: cover;
-                background-position: center;
-                padding: 3rem 2rem;
-                border-radius: 16px;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                margin-bottom: 1.5rem;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            }}
-        </style>
-        <div class="dynamic-hero-card">
-            <h1 style="color: white; margin: 0;">📍 {final_state.get('destination', 'Destination')} Plan</h1>
-            <p style="color: #e2e8f0; font-size: 1.1rem;">Custom generated {final_state.get('duration_days')} Day Itinerary</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )

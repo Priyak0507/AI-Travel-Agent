@@ -61,6 +61,19 @@ with st.sidebar:
         ],
         index=0,
     )
+    use_case = st.selectbox(
+        "Trip Use Case",
+        options=[
+            "Leisure",
+            "Business",
+            "Family",
+            "Romantic",
+            "Adventure",
+            "Wellness",
+        ],
+        index=0,
+        help="Choose the primary travel purpose for your itinerary.",
+    )
     api_key = st.text_input(
         "Groq API Key",
         value=st.session_state.get("groq_api_key_input", ""),
@@ -69,6 +82,13 @@ with st.sidebar:
         key="groq_api_key_input",
     )
     max_iterations = st.slider("Max correction loops", min_value=1, max_value=4, value=2, step=1)
+    unsplash_api_key = st.text_input(
+        "Unsplash API Key (optional)",
+        value=os.getenv("UNSPLASH_ACCESS_KEY", ""),
+        type="password",
+        help="Add an Unsplash key for better destination-specific travel photos.",
+        key="unsplash_api_key",
+    )
     run_clicked = st.button("Generate Travel Plan", use_container_width=True, type="primary")
 
 final_state: Dict[str, Any] = {}
@@ -88,6 +108,8 @@ if run_clicked:
         st.stop()
 
     os.environ["GROQ_API_KEY"] = api_key.strip()
+    if unsplash_api_key.strip():
+        os.environ["UNSPLASH_ACCESS_KEY"] = unsplash_api_key.strip()
 
     graph = build_graph()
     interests = _normalize_list_from_csv(interests_raw)
@@ -95,6 +117,7 @@ if run_clicked:
 
     initial_state: Dict[str, Any] = {
         "destination": destination.strip(),
+        "use_case": use_case,
         "duration_days": int(duration_days),
         "budget": float(budget),
         "interests": interests,
@@ -108,6 +131,7 @@ if run_clicked:
         "max_iterations": int(max_iterations),
         "final_plan": "",
         "destination_image_url": "",
+        "destination_image_urls": [],
         "execution_trace": [],
     }
 
@@ -136,22 +160,30 @@ if run_clicked:
         "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1650&q=80",
     )
 
+    image_urls = final_state.get("destination_image_urls", [])
+    if not image_urls:
+        seed_base = urllib.parse.quote(destination.lower().replace(" ", "_"))
+        image_urls = [
+            f"https://picsum.photos/seed/{seed_base}1/1200/800",
+            f"https://picsum.photos/seed/{seed_base}2/1200/800",
+            f"https://picsum.photos/seed/{seed_base}3/1200/800",
+        ]
+
+    image_urls = image_urls[:3]
+
     st.markdown(
         f"""
         <style>
             .destination-image-card {{
-                background: linear-gradient(180deg, rgba(2, 6, 23, 0.24) 0%, rgba(15, 23, 42, 0.85) 100%),
-                            url('{img_url}');
-                background-size: cover;
-                background-position: center;
-                padding: 2rem 1.5rem;
+                background: linear-gradient(180deg, rgba(2, 6, 23, 0.24) 0%, rgba(15, 23, 42, 0.85) 100%);
+                padding: 1.6rem 1.4rem;
                 border-radius: 18px;
-                border: 1px solid rgba(255, 255, 255, 0.16);
-                margin-bottom: 1.75rem;
-                box-shadow: 0 18px 45px rgba(0,0,0,0.33);
+                border: 0.8px solid rgba(255, 255, 255, 0.16);
+                margin-bottom: 1rem;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.25);
             }}
-            .destination-image-card h2 {{ margin: 0; font-size: 1.7rem; color: #fff; }}
-            .destination-image-card p {{ margin: 0.5rem 0 0; color: #cbd5e1; }}
+            .destination-image-card h2 {{ margin: 0; font-size: 1.6rem; color: #fff; }}
+            .destination-image-card p {{ margin: 0.4rem 0 0; color: #cbd5e1; }}
         </style>
         <div class="destination-image-card">
             <h2>📸 Scenic view of {final_state.get('destination', 'your destination')}</h2>
@@ -160,6 +192,8 @@ if run_clicked:
         """,
         unsafe_allow_html=True,
     )
+
+    st.image(image_urls, caption=[f"Photo {i+1} for {final_state.get('destination', 'destination')}" for i in range(len(image_urls))], use_container_width=True)
 
     tab1, tab2, tab3 = st.tabs(["Final Plan", "Budget", "Itinerary JSON"])
 

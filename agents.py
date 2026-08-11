@@ -41,11 +41,13 @@ def _fallback_itinerary(state: Dict[str, Any]) -> Dict[str, Any]:
 
 def planner_agent(state: Dict[str, Any]) -> Dict[str, Any]:
     previous_issues = state.get("correction_history", [])
+    use_case = state.get("use_case", "Leisure")
 
     prompt = f"""
 Create a practical day-by-day travel itinerary in strict JSON style.
 
 Destination: {state["destination"]}
+Use case: {use_case}
 Trip length (days): {state["duration_days"]}
 Budget (USD): {state["budget"]}
 Interests: {", ".join(state.get("interests", []))}
@@ -165,6 +167,7 @@ def validator_agent(state: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def finalizer_agent(state: Dict[str, Any]) -> Dict[str, Any]:
+    use_case = state.get("use_case", "Leisure")
     prompt = f"""
 Create a concise, user-friendly final travel plan in markdown.
 Include:
@@ -176,6 +179,7 @@ Include:
 
 Trip input:
 Destination: {state["destination"]}
+Use case: {use_case}
 Days: {state["duration_days"]}
 Budget: {state["budget"]}
 Interests: {", ".join(state.get("interests", []))}
@@ -209,29 +213,44 @@ Budget JSON:
 
 import requests
 
-UNSPLASH_ACCESS_KEY = os.getenv("UNSPLASH_ACCESS_KEY", "")
+def _fallback_destination_images(destination: str, per_page: int = 3) -> List[str]:
+    seed_base = urllib.parse.quote((destination or "travel").lower().replace(" ", "_"))
+    return [
+        f"https://picsum.photos/seed/{seed_base}{idx + 1}/1200/800"
+        for idx in range(per_page)
+    ]
+
 
 def fetch_destination_images(destination: str, per_page: int = 3) -> List[str]:
     """Fetches one or more destination image URLs from Unsplash."""
-    destination_query = urllib.parse.quote(destination or "travel")
-    fallback_url = f"https://source.unsplash.com/featured/1200x800/?{destination_query}"
-    if not UNSPLASH_ACCESS_KEY or UNSPLASH_ACCESS_KEY == "YOUR_UNSPLASH_ACCESS_KEY":
-        return [fallback_url] * per_page
+    fallback_urls = _fallback_destination_images(destination, per_page=per_page)
+    unsplash_access_key = os.getenv("UNSPLASH_ACCESS_KEY", "")
+    if not unsplash_access_key or unsplash_access_key == "YOUR_UNSPLASH_ACCESS_KEY":
+        return fallback_urls
 
     query = urllib.parse.quote(f"{destination} travel landmark")
     url = f"https://api.unsplash.com/search/photos?query={query}&orientation=landscape&per_page={per_page}"
-    headers = {"Authorization": f"Client-ID {UNSPLASH_ACCESS_KEY}"}
+    headers = {"Authorization": f"Client-ID {unsplash_access_key}"}
 
     try:
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             data = response.json()
             results = data.get("results", [])
-            if results:
-                return [item["urls"]["regular"] for item in results]
+            image_urls = []
+            for result in results:
+                url = result.get("urls", {}).get("regular")
+                if url and url not in image_urls:
+                    image_urls.append(url)
+                if len(image_urls) >= per_page:
+                    break
+            if image_urls:
+                while len(image_urls) < per_page:
+                    image_urls.append(fallback_urls[len(image_urls)])
+                return image_urls
     except Exception:
         pass
-    return [fallback_url] * per_page
+    return fallback_urls
 
 
 def fetch_destination_image(destination: str) -> str:
@@ -244,10 +263,11 @@ def image_agent(state: Dict[str, Any]) -> Dict[str, Any]:
     destination = state.get("destination", "travel")
     trace = state.get("execution_trace", [])
     
-    image_url = fetch_destination_image(destination)
+    image_urls = fetch_destination_images(destination, per_page=3)
     trace.append(f"Image Agent: Fetched photography banner for {destination}.")
     
     return {
-        "destination_image_url": image_url,
+        "destination_image_url": image_urls[0],
+        "destination_image_urls": image_urls,
         "execution_trace": trace
     }

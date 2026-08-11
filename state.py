@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 class AgentState(TypedDict):
     destination: str
+    use_case: str
     duration_days: int
     budget: float
     interests: List[str]
@@ -18,8 +19,9 @@ class AgentState(TypedDict):
     iteration: int
     max_iterations: int
     final_plan: str
+    destination_image_url: str
+    destination_image_urls: List[str]
     execution_trace: List[str]
-    destination_image_url: str  # <--- ADD THIS LINE
 
 
 class DayPlan(BaseModel):
